@@ -1,0 +1,78 @@
+Table users {
+  user_id int [pk, increment]
+  name varchar
+  email varchar
+  password varchar
+  role varchar // freelancer or client
+  profile_description text
+  skills varchar
+  created_at datetime
+}
+
+Table projects {
+  project_id int [pk, increment]
+  client_id int [ref: > users.user_id]
+  title varchar
+  description text
+  budget decimal
+  status varchar // open, in_progress, completed
+  created_at datetime
+}
+
+Table bids {
+  bid_id int [pk, increment]
+  project_id int [ref: > projects.project_id]
+  freelancer_id int [ref: > users.user_id]
+  bid_amount decimal
+  proposal text
+  status varchar // pending, accepted, rejected
+  created_at datetime
+}
+
+Table messages {
+  message_id int [pk, increment]
+  sender_id int [ref: > users.user_id]
+  receiver_id int [ref: > users.user_id]
+  message_text text
+  sent_at datetime
+  is_read boolean
+}
+
+Table reviews {
+  review_id int [pk, increment]
+  project_id int [ref: > projects.project_id]
+  reviewer_id int [ref: > users.user_id]
+  reviewee_id int [ref: > users.user_id]
+  rating int
+  comment text
+  created_at datetime
+}
+
+Table products {
+  product_id int [pk, increment]
+  freelancer_id int [ref: > users.user_id]
+  title varchar
+  description text
+  price decimal
+  product_type varchar // digital_product or course
+  product_file varchar // For digital products
+  course_link varchar // For courses
+  created_at datetime
+}
+
+Table orders {
+  order_id int [pk, increment]
+  client_id int [ref: > users.user_id]
+  total_amount decimal
+  order_status varchar // pending, completed
+  order_date datetime
+}
+
+Table order_details {
+  order_detail_id int [pk, increment]
+  order_id int [ref: > orders.order_id]
+  product_id int [ref: > products.product_id]
+  price decimal
+  quantity int
+}
+

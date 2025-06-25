@@ -1,0 +1,111 @@
+﻿
+
+@model IEnumerable<JopShop.Models.Product>
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "All Products";
+    string currentUserEmail = Context.Session.GetString("CurrentUser") ?? "";
+}
+
+<div class="container-fuiled m-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="textmi">All Products</h1>
+        <a asp-controller="Products" asp-action="Create" class="btn btn-success text-dark fs-5">Add Product ➕</a>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">@TempData["Message"]</div>
+    }
+
+    <div class="row">
+    @* @foreach (var product in Model.Where(p => !p.IsHidden || p.Seller?.Email == currentUserEmail)) *@
+@foreach (var product in Model)
+
+        {
+            bool isOwner = product.Seller?.Email == currentUserEmail;
+
+            <div class="col-md-3 mb-3">
+                <div class="card h-100 d-flex flex-column border-0 shadow-sm rounded-3">
+                    <img src="~/images/@product.ImageUrl" class="card-img-top" style="height: 250px; object-fit: cover;" alt="@product.Name" />
+
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title text-truncate fs-4">@product.Name</h5>
+                            <p class="card-text text-muted">@product.Description</p>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-success fw-bold ms-2 fs-5">@product.Price JD</span>
+                                <span class="badge bg-success fs-6">Available: @product.Quantity</span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-auto">
+                            @if (isOwner)
+                            {
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-outline-success btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+@*
+                                @if (product.IsHidden)
+                                {
+                                    <form asp-controller="Products" asp-action="Unhide" asp-route-id="@product.Id" method="post" class="d-grid">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-eye"></i> Unhide
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-controller="Products" asp-action="Hide" asp-route-id="@product.Id" method="post" class="d-grid">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-eye-slash"></i> Hide
+                                        </button>
+                                    </form>
+                                }
+*@
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-@product.Id">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            }
+                            else
+                            {
+                                <form asp-controller="CartItems" asp-action="AddToCart" method="post">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <button type="submit" class="btn btn-success btn-md w-100">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal-@product.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@product.Id" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-dark">
+                        <div class="modal-header bg-dark ">
+                            <h5 class="modal-title text-white" id="deleteModalLabel-@product.Id">Confirm Deletion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete <strong class="text-danger">@product.Name</strong>?
+                        </div>
+                        <div class="modal-footer">
+                     
+                            <button type="button" class="btn btn-outline-danger " data-bs-dismiss="modal">Cancel</button>
+                                   <form asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" method="post">
+                                <button type="submit" class="btn btn-dark">Yes, Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+}

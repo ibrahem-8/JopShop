@@ -1,0 +1,313 @@
+﻿@* @model IEnumerable<JopShop.Models.Application>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+    <title>Applections</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/homeAssets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/homeAssets/css/style.css" rel="stylesheet">
+ <link href="~/homeAssets/css/profile.css" rel="stylesheet">
+</head>
+
+
+<body class="container-fluid  bg-white">
+
+<h2>Applicants for My Projects</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No applicants yet.</p>
+}
+else
+{
+    foreach (var app in Model)
+    {
+        <div class="card my-3 p-3 shadow">
+            <h5 class="text-primary">@app.Job?.Title</h5>
+            <p><strong>Applicant:</strong> @app.User?.Name</p>
+            <p><strong>Email:</strong> @app.User?.Email</p>
+            <p><strong>Status:</strong> @app.Status</p>
+
+            <div class="d-flex gap-2">
+                @if (app.Status == "Pending")
+                {
+                    <form method="post" asp-action="Accept" asp-route-id="@app.Id">
+                        <button class="btn btn-success">Accept</button>
+                    </form>
+                    <form method="post" asp-action="Reject" asp-route-id="@app.Id">
+                        <button class="btn btn-danger">Reject</button>
+                    </form>
+                }
+                else if (app.Status == "Accepted")
+                {
+                    <form method="post" asp-action="FinishWork" asp-route-id="@app.Id">
+                        <button class="btn btn-warning">Finish Work</button>
+                    </form>
+                }
+                else if (app.Status == "Finished")
+                {
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#rateModal" onclick="openRateModal(@app.Id)">Evaluate</button>
+                }
+                else if (app.Status == "Rated")
+                {
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="openDeleteModal(@app.Id)">Delete Request</button>
+                }
+            </div>
+        </div>
+    }
+}
+
+<!-- Modal: Rating -->
+<div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="rateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" id="rateForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Rate Applicant</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+
+
+
+        <div class="modal-body">
+     
+  <div class="star-widget">
+  <input type="radio" name="rating" id="rate-5" value="5">
+<label for="rate-5" class="fas fa-star"></label>
+
+<input type="radio" name="rating" id="rate-4" value="4">
+<label for="rate-4" class="fas fa-star"></label>
+
+<input type="radio" name="rating" id="rate-3" value="3">
+<label for="rate-3" class="fas fa-star"></label>
+
+<input type="radio" name="rating" id="rate-2" value="2">
+<label for="rate-2" class="fas fa-star"></label>
+
+<input type="radio" name="rating" id="rate-1" value="1">
+<label for="rate-1" class="fas fa-star"></label>
+
+
+</div>
+          <input type="hidden" name="id" id="rateAppId" />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Delete Confirmation -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" id="deleteForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Application</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this application?</p>
+          <input type="hidden" name="id" id="deleteAppId" />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    function openRateModal(id) {
+        document.getElementById("rateAppId").value = id;
+        document.getElementById("rateForm").action = "/Applications/SubmitRating";
+    }
+
+    function openDeleteModal(id) {
+        document.getElementById("deleteAppId").value = id;
+        document.getElementById("deleteForm").action = "/Applications/DeleteConfirmed";
+    }
+ 
+        @if (TempData["mailto"] != null)
+        {
+            <text>
+                window.onload = function() {
+                    window.location.href = '@TempData["mailto"]';
+                };
+            </text>
+        }
+</script>
+}
+</body>
+</html> *@
+
+@model IEnumerable<JopShop.Models.Application>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Applicants</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/homeAssets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/homeAssets/css/style.css" rel="stylesheet">
+    <link href="~/homeAssets/css/profile.css" rel="stylesheet">
+</head>
+
+<body class="container-fluid bg-white">
+
+    <h2 class="mt-4 text-success text-center ">Applicants for My Projects</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted">No applicants yet.</p>
+    }
+    else
+    {
+        foreach (var app in Model)
+        {
+            <div class="card my-4 p-3 shadow-sm border-start border-2 border-success ">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center">
+                      <img src="@Url.Content(app.User?.ImagePath ?? "~/images/default-user.png")"
+                       class="rounded-circle shadow "width="135" height="135" alt="User Image" />
+                    </div>
+                    <div class="col-md-7">
+                        <h5 class="text-success mb-2">@app.Job?.Title</h5>
+                        <p class="mb-1 text-dark "><strong>Applicant:</strong> @app.User?.Name</p>
+                        <p class="mb-1 text-dark "><strong>Email:</strong> @app.User?.Email</p>
+                        <p class="mb-0 text-dark "><strong>Status:</strong> <span class="badge bg-success">@app.Status</span></p>
+                    </div>
+                    <div class="col-md-3 d-flex flex-column gap-2">
+                        <a class="btn btn-outline-success" asp-controller="Users" asp-action="ProfileById" asp-route-id="@app.UserId">View Profile</a>
+                        
+
+@if (app.Status == "Pending")
+{
+    <form method="post" asp-action="Accept" asp-route-id="@app.Id">
+        <button class="btn btn-success w-100">Accept</button>
+    </form>
+    <form method="post" asp-action="Reject" asp-route-id="@app.Id">
+        <button class="btn btn-danger w-100">Reject</button>
+    </form>
+}
+else if (app.Status == "Accepted")
+{
+    <form method="post" asp-action="FinishWork" asp-route-id="@app.Id">
+        <button class="btn btn-outline-dark w-100">Finish Work</button>
+    </form>
+}
+else if (app.Status == "Finished")
+{
+    <button class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#rateModal" onclick="openRateModal(@app.Id)">Evaluate</button>
+}
+else if (app.Status == "Rated")
+{
+    <button class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="openDeleteModal(@app.Id)">Delete</button>
+}
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <!-- Modal: Rating -->
+    <div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="rateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" id="rateForm">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-white">Rate Applicant</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="star-widget text-center">
+                            <input type="radio" name="rating" id="rate-5" value="5"><label for="rate-5" class="fas fa-star"></label>
+                            <input type="radio" name="rating" id="rate-4" value="4"><label for="rate-4" class="fas fa-star"></label>
+                            <input type="radio" name="rating" id="rate-3" value="3"><label for="rate-3" class="fas fa-star"></label>
+                            <input type="radio" name="rating" id="rate-2" value="2"><label for="rate-2" class="fas fa-star"></label>
+                            <input type="radio" name="rating" id="rate-1" value="1"><label for="rate-1" class="fas fa-star"></label>
+                        </div>
+                        <input type="hidden" name="id" id="rateAppId" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Delete Confirmation -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" id="deleteForm">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-success ">Delete Application</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this application?</p>
+                        <input type="hidden" name="id" id="deleteAppId" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            function openRateModal(id) {
+                document.getElementById("rateAppId").value = id;
+                document.getElementById("rateForm").action = "/Applications/SubmitRating";
+            }
+
+            function openDeleteModal(id) {
+                document.getElementById("deleteAppId").value = id;
+                document.getElementById("deleteForm").action = "/Applications/DeleteConfirmed";
+            }
+
+            @if (TempData["mailto"] != null)
+            {
+                <text>
+                    window.onload = function () {
+                        window.location.href = '@TempData["mailto"]';
+                    };
+                </text>
+            }
+        </script>
+    }
+
+</body>
+</html>

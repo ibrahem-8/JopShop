@@ -1,0 +1,123 @@
+﻿@model JopShop.Models.User
+@{
+	ViewData["Title"] = "Register2";
+	Layout = null;
+}
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Job&Shop</title>
+	<link rel="icon" href="~/homeAssets/img/logo.png" type="image/png">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="" name="keywords">
+	<meta content="" name="description">
+
+
+	<!-- Google Web Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+	<!-- Icon Font Stylesheet -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+	<!-- Libraries Stylesheet -->
+	<link href="~/homeAssets/lib/animate/animate.min.css" rel="stylesheet">
+	<link href="~/homeAssets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+	<!-- Customized Bootstrap Stylesheet -->
+	<link href="~/homeAssets/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Template Stylesheet -->
+	<link href="~/homeAssets/css/style.css" rel="stylesheet">
+</head>
+
+
+
+
+
+
+
+@* @{
+    var email = TempData["Email"] as string;
+    var password = TempData["Password"] as string;
+}
+ *@
+
+<body class="body_profile">
+	<div id="messageBox" class="showmessage"></div>
+	<div class="profile">
+		<div class="profile-containerform">
+			<div class="form-containerform">
+				<!-- ✅ تعديل الفورم ليرسل البيانات إلى Register2 -->
+				<form class="for_pro" asp-action="Register2" method="post" enctype="multipart/form-data" id="profileForm">
+				
+					
+					@*     <input " type="hidden" name="Email" value="@email" />
+    <input type="hidden" name="Password" value="@password" /> *@
+
+
+					@if (ViewBag.Errors != null)
+					{
+						@if (!string.IsNullOrEmpty(ViewBag.Errors))
+						{
+							<div class="text-danger">@ViewBag.Errors</div>
+						}
+					}
+
+
+					<label>Your Image</label>
+					<input type="file" accept="image/*" name="ImageFile" id="img_pro">
+
+					<label>Full Name</label>
+					<input type="text" placeholder="Full Name" name="Name" class="filed_text" id="fname_pro" value="@Model.Name">
+
+					<label>User Name</label>
+					<input type="text" name="UserName" id="user_name" placeholder="Username" required value="@Model.UserName" class="filed_text" />
+
+					<label>Phone Number</label>
+					<input type="tel" placeholder="example: 079***" maxlength="10" class="filed_text" name="PhoneNumber" id="ph_pro" value="@Model.PhoneNumber" pattern="[0-9]{10}">
+
+					<label class="b_gpro">Gender</label>
+					<select name="Gender" id="select_pro" class="filed_text" required>
+						<option value="">Select Gender</option>
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
+					</select>
+
+					<label class="b_gpro">Birth Date</label>
+					<input type="date" name="BirthDate" max="2020-01-01" class="filed_text" id="date_pro">
+
+					<label>Upload CV (PDF, DOCX)</label>
+					<input type="file" accept=".pdf, .doc, .docx" name="CvFile" id="cv_pro">
+
+					<label>LinkedIn Profile URL (Optional)</label>
+					<input name="LinkedInUrl" id="linkedin_pro" placeholder="LinkedIn URL" class="filed_text" />
+
+					<button type="submit" class="send_pro" id="send_pro">Send</button>
+				</form>
+			</div>
+			<img src="~/homeAssets/img/page_log.png" class="img_profileform">
+		</div>
+
+
+		<!-- JavaScript Libraries -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="~/homeAssets/lib/wow/wow.min.js"></script>
+		<script src="~/homeAssets/lib/easing/easing.min.js"></script>
+		<script src="~/homeAssets/lib/waypoints/waypoints.min.js"></script>
+		<script src="~/homeAssets/lib/owlcarousel/owl.carousel.min.js"></script>
+
+		<!-- Template Javascript -->
+		<link href="~/homeAssets/css/style.css" rel="stylesheet">
+
+</body>
+
+</html>
+
+
+
+
+

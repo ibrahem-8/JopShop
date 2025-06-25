@@ -1,0 +1,164 @@
+﻿
+
+@model IEnumerable<JopShop.Models.Job>
+
+@{
+    ViewData["Title"] = "Job List";
+    var currentUser = ViewBag.CurrentUser as string;
+}
+
+
+<!-- Header -->
+<div class="container-fluid px-0 position-relative">
+    <video class="w-100" style="height: 320px; object-fit: cover;" autoplay loop muted playsinline>
+        <source src="~/homeAssets/img/joblist.mp4" type="video/mp4">
+    </video>
+
+    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center" style="background: rgba(0, 0, 0, 0.3);">
+        <h1 class="display-3 text-white mb-3">Job List</h1>
+    </div>
+</div>
+<br/>
+<br />
+
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="textmi">All Jobs</h1>
+    <a asp-controller="Jobs" asp-action="Create" class="btn btn-success text-dark fs-5">Add Job ➕</a>
+</div>
+
+<br />
+
+
+<!-- Job Listings -->
+<div class="container-fluid my-4">
+    @if (TempData["Error"] != null)
+{
+    <div class="alert alert-success text-center fw-bold">
+        @TempData["Error"]
+    </div>
+}
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted fs-4 text-center">No projects available.</p>
+    }
+    else
+    {
+        foreach (var project in Model)
+        {
+            var isOwner = currentUser != null && project.Employer?.Email == currentUser;
+
+            <div class="job-item p-4 mb-4 border rounded-2 shadow bg-white">
+                <div class="row g-0">
+                   <div class="col-md-8 d-flex align-items-center">
+                     
+     <img class="flex-shrink-0 img-fluid border rounded-circle"
+     src="@project.Employer?.ImagePath"
+     alt="Employer Image"
+     onerror="this.onerror=null;this.src='@Url.Content("~/img/default.png")';"
+     style="width: 150px; height: 150px;" />
+
+
+                        <div class="text-start ps-4">
+                            <h1 class="mb-1 fs-2">@project.Title</h1>
+                            @* <p class="mb-1 text-muted fs-4">Category: @project.</p> *@
+                            <p class="mb-1 fs-4">Posted by: <strong text-dark>@project.Employer?.Name</strong></p>
+                            <span class="me-3 text-muted fs-4">
+                                <i class="fas fa-briefcase text-success me-2"></i>@project.Category
+                            </span>
+                            <span>
+                                <i class="far fa-money-bill-alt text-success me-2 fs-4"></i>@project.Salary
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 d-flex flex-column justify-content-between align-items-end">
+                        @if (isOwner)
+                        {
+                            <div class="mt-4">
+                                <a asp-action="Edit" asp-route-id="@project.Id" class="btn btn-warning me-2 rounded-2 btn-md">Edit</a>
+
+                                <!-- زر حذف يفتح المودال -->
+                                <button class="btn btn-danger rounded-2 btn-md"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-id="@project.Id"
+                                        data-title="@project.Title">
+                                    Delete
+                                </button>
+                            </div>
+                            <small class="mt-2 text-muted">
+                                <i class="far fa-calendar-alt text-success me-2"></i>
+                                Created: @project.CreatedAt?.ToShortDateString()
+                            </small>
+                        }
+                        else
+                        {
+                            <div class="w-100 mt-4 d-flex flex-column align-items-end rounded-3">
+                                <a asp-controller="Applications" asp-action="Create" asp-route-jobId="@project.Id"
+                                   class="btn btn-success btn-md  mb-2 rounded-2">Apply Now</a>
+
+                                <small class="text-muted fs-5">
+                                    <i class="far fa-calendar-alt text-success mt-3 me-2 fs-4"></i>
+                                    Created: @project.CreatedAt?.ToShortDateString()
+                                </small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      
+      <div class="modal-header bg-dark text-white rounded-top-4 ">
+        <h5 class="modal-title fw-bold text-white" id="deleteModalLabel">
+          <i class="fas text-white fa-exclamation-triangle me-2"> </i>Confirm Deletion
+        </h5>
+        <button type="button" class="btn-close text-dark btn-close-success" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body text-center p-4">
+        <p class="fs-5 mb-2 textmi">Are you sure you want to delete <strong id="jobTitlePlaceholder" class="text-danger"></strong>?</p>
+        <p class="text-muted mb-0 textmi">This action cannot be undone.</p>
+      </div>
+      
+      <div class="modal-footer justify-content-center pb-4">
+        <form method="post" asp-controller="Jobs" asp-action="Delete">
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="id" id="jobIdInput" />
+          
+          <button type="button" class="btn btn-danger text-white me-2 px-4 rounded-pill" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-dark px-4 text-white  rounded-pill">
+            Yes, Delete
+          </button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+@section Scripts {
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var jobId = button.getAttribute('data-id');
+        var jobTitle = button.getAttribute('data-title');
+
+        document.getElementById('jobIdInput').value = jobId;
+        document.getElementById('jobTitlePlaceholder').textContent = jobTitle;
+    });
+</script>
+}

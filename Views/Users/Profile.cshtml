@@ -1,0 +1,226 @@
+
+
+
+
+
+@model JopShop.Models.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "User Profile";
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>User Profile</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/homeAssets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/homeAssets/css/style.css" rel="stylesheet">
+ <link href="~/homeAssets/css/profile.css" rel="stylesheet">
+  
+
+
+  </head>
+
+<body>
+
+<div class="container-fluid data_profile bg-white">
+    <div class="row gy-4">
+        <div class="col-lg-4 col-md-5 col-sm-12">
+            <div class="profile-container d-flex flex-column p-3 bg-white rounded-xl shadow" style="height: 100%;">
+                <img src="@(Model.User.ImagePath ?? "/assets/img/default.png")" alt="Profile Picture" class="img-fluid d-block mx-auto">
+                <div class="text-center text-dark mt-3 mb-1">
+                    <p class="textm fs-2">@Model.User.Name</p>
+                </div>
+                @{
+    var avg = Math.Round(Model.AverageRating, 1);
+    var totalRatings = Model.RatingCount;
+}
+
+<div class="text-center mb-2">
+    @for (int i = 0; i < 5; i++)
+    {
+        var color = i < Math.Round(avg) ? "#fd4" : "#ccc";
+        <i class="fas fa-star" style="color:@color; font-size: 40px;"></i>
+    }
+    <div>
+        <strong>@avg</strong> out of 5 based on @totalRatings rating(s)
+    </div>
+</div>
+
+                <div class="mt-auto d-flex flex-column flex-md-row gap-2">
+                    <a href="@Model.User.CvPath" class="btn btn-lg btn-dark text-white flex-fill rounded-2" download>Download CV</a>
+                    <a href="@Model.User.LinkedInUrl" target="_blank" class="btn btn-dark text-white rounded-2 fs-5 flex-fill d-flex align-items-center justify-content-center">
+                        <i class="fab fa-linkedin me-2"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-8 col-md-7 col-sm-12">
+            <div class="profile-container bg-white shadow rounded-xl p-4 h-100 d-flex flex-column">
+                <p class="fs-1 fw-bold mb-4 border-bottom text-dark pb-2">Details :-</p>
+                <p class="mb-3"><i class="fas fa-user-circle fs-4 text-primary me-2"></i><strong class="fs-5">User name:</strong> <span class="fs-4 ms-2">@Model.User.Name</span></p>
+                <p class="mb-3"><i class="fas fa-calendar-alt fs-4 text-primary me-2"></i><strong class="fs-5">Date of Birth:</strong> <span class="fs-4 ms-2">@Model.User.CreatedAt?.ToShortDateString()</span></p>
+                <p class="mb-3"><i class="fas fa-phone fs-4 text-primary me-2"></i><strong class="fs-5">Phone Number:</strong> <span class="fs-4 ms-2">@Model.User.PhoneNumber</span></p>
+                <p class="mb-4"><i class="fas fa-venus-mars fs-4 text-primary me-2"></i><strong class="fs-5">Gender:</strong> <span class="fs-4 ms-2">@Model.User.Gender</span></p>
+                @if (Model.IsOwner)
+                {
+                    <div class="mt-auto text-center">
+                        <a href="/Users/Edit/@Model.User.Id" class="btn btn-lg btn-dark  px-5 rounded-2">
+                                <i class="fas fa-edit me-2 text-white"></i> Update Data
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-12">
+            <h3 class="textmi fs-2  text-dark mb-4">My Projects :-</h3>
+            <div class="card-header bg-dark text-white textmi fs-3">Add New Project</div>
+
+            @if (Model.IsOwner)
+            {
+                <form id="project_form" asp-controller="ProjectsUser" asp-action="SaveProject" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="project_id" name="Id" />
+                    <div class="mb-3">
+                        <label for="des_project" class="form-label ps-3 textmi fs-5">Project Description</label>
+                        <textarea id="des_project" name="Description" class="form-control" rows="3" placeholder="Write something about your project..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_project" class="form-label ps-3 textmi fs-5">Upload File</label>
+                        <input type="file" id="new_project" name="FileUpload" class="form-control">
+                    </div>
+                    <button type="submit" id="pro_send" class="btn btn-dark text-white btn-xl rounded-2 w-100">Add Project</button>
+                </form>
+            }
+
+            <div class="position-relative mt-4">
+                <button class="scroll-btn left btn btn-dark" onclick="scrollProjects(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="scroll-btn right btn btn-dark" onclick="scrollProjects(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+<div id="projectsCarousel" class="d-flex overflow-auto gap-2 scroll-container pe-4">
+    @foreach (var project in Model.ProjectsUser)
+    {
+        <div class="projectt-card text-dark flex-shrink-0">
+            <h5 class="text-white bg-dark textmi fs-4">
+                <i class="fas fa-folder-open mt-2 me-2"></i> Project
+            </h5>
+            <p class="textm fs-5">@project.Description</p>
+
+            @if (Model.IsOwner)
+            {
+                <div class="d-flex justify-content-center mb-3 gap-1">
+                    <button type="button" class="btn btn-sm  btn-outline-danger"
+                            onclick="editProject(@project.Id, '@Html.Raw(project.Description.Replace("'", "\\'"))')">
+                        <i class="fas fa-edit me-1"></i> Edit
+                    </button>
+                    <a href="@project.Path" download class="btn btn-outline-success  btn-sm">Download</a>
+                    <button class="btn  btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#deleteProjectModal"
+                            onclick="setProjectToDelete(@project.Id)">
+                        <i class="fas fa-trash-alt me-1"></i> Delete
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="text-center mt-2">
+                    <a href="@project.Path" download class="btn btn-success text-dark btn-sm">Download</a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+            @if (!Model.ProjectsUser.Any())
+            {
+                <p class="text-muted ps-2">No projects available.</p>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-labelledby="deleteProjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow border-0 rounded-4">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteProjectModalLabel">
+                    <i class="fas fa-trash-alt me-2"></i> Confirm Deletion
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="/ProjectsUser/Delete">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="projectIdToDelete" />
+                    <p class="fs-5 text-dark">Are you sure you want to delete this project?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Footer & Scripts -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function editProject(id, description) {
+        document.getElementById("project_id").value = id;
+        document.getElementById("des_project").value = description;
+        document.getElementById("pro_send").innerText = "Update Project";
+    }
+
+    function setProjectToDelete(projectId) {
+        document.getElementById('projectIdToDelete').value = projectId;
+    }
+
+    function scrollProjects(direction) {
+        const container = document.getElementById('projectsCarousel');
+        const card = container.querySelector('.projectt-card');
+        if (!card) return;
+
+        // نحسب عرض الكرت مع الـ margin
+        const cardStyle = getComputedStyle(card);
+        const marginLeft = parseInt(cardStyle.marginLeft);
+        const scrollAmount = card.offsetWidth + marginLeft;
+
+        container.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById('projectsCarousel');
+        const cards = container.querySelectorAll('.project-card');
+        const scrollBtns = document.querySelectorAll('.scroll-btn');
+
+        // نخفي أزرار التمرير إذا عدد الكروت قليل
+        if (cards.length <= 4) {
+            scrollBtns.forEach(btn => btn.style.display = 'none');
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

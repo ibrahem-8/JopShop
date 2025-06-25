@@ -1,0 +1,464 @@
+﻿@{
+    Layout = "_HomeLayout";
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<!-- Carousel Start -->
+<div class="container-fluid container-xlg  p-0">
+    <div class="owl-carousel header-carousel position-relative ">
+        <div class="owl-carousel-item position-relative">
+            <video style="height: 745px; object-fit: cover" class="img-fluid w-100" autoplay loop muted playsinline>
+                <source src="~/homeAssets/img/4065231-uhd_4096_2160_25fps.mp4" type="video/mp4">
+            </video>
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(1, 36, 23, 0.5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Discover the true meaning of freelancing</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">
+                                <i class="icon-heart"> </i> The ideal place for freelancers to display their portfolios,
+                                attract opportunities, and grow their careers.
+                            </p>
+                     
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="owl-carousel-item position-relative embed-responsive-16by9 autoplay ">
+            <video style="width: 100%; height: 745px; object-fit: cover;" class="img-fluid w-100" autoplay loop muted playsinline>
+
+                <source src="~/homeAssets/img/7568747-hd_1920_1080_25fps.mp4" type="video/mp4">
+            </video>
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(0, 4, 1, 0.434);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h6 class="display-3 text-light animated slideInDown mb-4">The Ultimate Platform for Freelancers' Products and Projects</h6>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Whether you are looking to buy high-quality freelancer products or showcase your projects, our platform provides the perfect space for collaboration and growth. Explore a wide range of talents and products designed to meet your professional needs.</p>
+                            @* <a href="sign-up.html" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Start New</a> *@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+
+
+
+
+
+
+<!-- Category Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp fs-1 textmi " data-wow-delay="0.1s">Popular services</h1>
+        <div class="row g-4">
+            <div class="col-lg-3 col-sm-6 wow fadeInUp  " data-wow-delay="0.1s">
+
+                <i class="fa fa-3x fa-mail-bulk text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5 ">Marketing</h6>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+
+                <i class="fa fa-3x fa-headset text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Customer Service</h6>
+
+
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp textmi" data-wow-delay="0.5s">
+
+                <i class="fa fa-3x fa-user-tie text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Technical Support</h6>
+
+
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+
+                <i class="fa fa-3x fa-tasks text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Project Management</h6>
+
+
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+
+                <i class="fa fa-3x fa-chart-line text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Business Development</h6>
+
+
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+
+                <i class="fa fa-3x fa-hands-helping text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Sales & Communication</h6>
+
+
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+
+                <i class="fa fa-3x fa-book-reader text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Teaching & Education</h6>
+
+
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+
+                <i class="fa fa-3x fa-drafting-compass text-success mb-4"></i>
+                <h6 class="mb-3 textm fs-5">Design & Creative</h6>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Category End -->
+
+<div class="container my-5 wow fadeInUp" data-wow-delay="0.1s">
+    <h2 class="text-center mb-4 fs-1 textmi">All News !!!</h2>
+
+    <div class="scroll-wrapper position-relative">
+        <button class="btn btn-success scroll-buttons start-0" id="scrollPostsLeft">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="scroll-container d-flex flex-nowrap" id="postsContainer">
+            @foreach (var post in Model.LatestPosts)
+            {
+               <div class="scroll-item card shadow border-0 mx-2"
+     style="min-width:97%; max-width: 98%; border-radius: 12px;">
+    <div class="card-body d-flex flex-column justify-content-between  p-4">
+        <div>
+            <h4 class="card-title text-success mb-3">@post.Title</h4>
+            <p class="card-text text-muted" style="font-size: 1rem; line-height: 1.6; margin-bottom: 0;margin-bottom: 0; ">
+                @post.PostText
+            </p>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">
+                Published on @post.CreatedAt?.ToString("yyyy-MM-dd HH:mm")
+            </small>
+
+            @if (Context.Session.GetString("CurrentUser")?.ToLower() == "admin@gmail.com")
+            {
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-warning"
+                            data-bs-toggle="modal" data-bs-target="#editModal-@post.Id">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal-@post.Id">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal-@post.Id" tabindex="-1" aria-labelledby="editModalLabel-@post.Id" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-3">
+                            <form asp-action="Edit" asp-controller="Posts" method="post">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title">Edit Post</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="Id" value="@post.Id" />
+                                    <input type="hidden" name="UserId" value="@post.UserId" />
+                                    <input type="hidden" name="CreatedAt" value="@post.CreatedAt" />
+                                    <div class="mb-3">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" name="Title" class="form-control" value="@post.Title" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Content</label>
+                                        <textarea name="PostText" class="form-control" rows="4" required>@post.PostText</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal-@post.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@post.Id" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-3">
+                            <form asp-action="Delete" asp-controller="Posts" method="post">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">Confirm Delete</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete the post "<strong>@post.Title</strong>"?</p>
+                                    <input type="hidden" name="id" value="@post.Id" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="btn btn-success scroll-buttons end-0" id="scrollPostsRight">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+<div class="container my-5 wow fadeInUp" data-wow-delay="0.1s">
+    <h2 class="text-center mb-4 fs-1 textmi">Most Popular Freelancers</h2>
+    <p class="text-center mb-4 textm text-lg fs-4">Discover the top freelancers who excel in their fields and help you achieve your goals. Whether you're looking for experts in design, development, or marketing, we have a wide range of talented professionals ready to work with you.</p>
+    <div id="publishedUsersContainer" class="row g-1">
+       
+  
+    
+
+    <div class="scroll-wrapper position-relative">
+        <button class="btn btn-success scroll-buttons start-0" id="scrollUsersLeft">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div id="usersContainer" class="scroll-container d-flex flex-nowrap overflow-auto px-2">
+            @foreach (var user in Model.PublishedUsers)
+            {
+                <div class="scroll-item card  shadow-sm border-0" style=" border-radius: 12px;">
+                    <img src="@user.ImagePath"
+                         class="card-img-top"
+                         alt="@user.UserName"
+                         style="height: 320px; object-fit: cover; border-radius: 10px 10px 0 0;" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title fs-4">@user.UserName</h5>
+
+                        @{
+                            var avg = Math.Round(user.AverageRating, 1);
+                        }
+
+                        <div class="mb-2">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                var color = i < Math.Round(avg) ? "#fd4" : "#ccc";
+                                <i class="fas fa-star" style="color:@color; font-size: 24px;"></i>
+                            }
+                        </div>
+
+                        <a asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id"
+                           class="btn btn-outline-success w-75 mb-2 rounded-pill">View Profile</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="btn btn-success scroll-buttons end-0" id="scrollUsersRight">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+@* 
+<div class="container mt-5">
+
+    <div class="row">
+        @foreach (var user in Model.PublishedUsers)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+          <img src="@user.ImagePath"
+     class="card-img-top"
+     alt="@user.UserName"
+     style="height: 320px; object-fit: cover; border-radius: 10px 10px 0 0;" />
+
+<div class="card-body text-center">
+    <h5 class="card-title fs-1">@user.UserName</h5>
+
+    @{
+        var avg = Math.Round(user.AverageRating, 1);
+        var totalRatings = user.RatingCount;
+    }
+
+    <div class="mb-2">
+        @for (int i = 0; i < 5; i++)
+        {
+            var color = i < Math.Round(avg) ? "#fd4" : "#ccc";
+            <i class="fas fa-star" style="color:@color; font-size: 32px;"></i>
+        }
+        
+    </div>
+                  
+<a asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id" class="btn btn-outline-success  w-75 rounded-pill">View Profile</a>
+
+                       
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+    </div>
+</div> *@
+
+
+<!-- About Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <video class="img-fluid" autoplay loop muted playsinline>
+                    <source src="~/homeAssets/img/3209301-uhd_3840_2160_25fps.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-lg-6 wow fadeIn text-lg-start text-center textm" data-wow-delay="0.5s">
+                <h1 class="mb-2 fs-1 textmi ">We help you get the best job and sell your products.</h1>
+                <p class="mb-2 textm fs-5">We provide the best opportunities to help you land your dream job and efficiently sell your products online. Whether you're looking to advance in your career or grow your business, we're here to assist you every step of the way.</p>
+                <p><i class="fa fa-check text-primary me-3 "></i>Find the best job opportunities tailored for your skills</p>
+                <p><i class="fa fa-check text-primary me-3 "></i>Sell your products to a global audience with ease</p>
+                <p><i class="fa fa-check text-primary me-3 "></i>Gain support in every step of your career or business journey</p>
+
+            </div>
+        </div>
+
+        <!-- About End -->
+        <br>
+        <br>
+        <br>
+ 
+
+
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Discover the Power of Our Platform</h2>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <img src="~/homeAssets/img/Latest work from home Job ideas.jpg" alt="Freelance and Store Platform" class="img-fluid rounded shadow-sm" />
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div>
+                        <p class="lead">
+                                ✨ Our Platform... Your Smart Gateway to Success ✨ <br />
+                                In a world moving toward flexibility and innovation, we present to you a platform that seamlessly blends the power of freelancing with the convenience of a digital store.<br />
+                                Through a single interface, we offer you an exceptional experience that combines:<br />
+                                🔹 Freelance Opportunities: Connect with top professionals, get your projects done efficiently and professionally, and support talented individuals with ease.<br />
+                                🔹 An Integrated Online Store: Browse curated, high-quality products and enjoy fast, reliable delivery.<br />
+
+                                Our platform isn’t just a website… it’s a community that bridges creativity with demand, skills with opportunity, sellers with buyers.<br />
+
+                                Join us today and become part of a future that merges freedom and opportunity. 🚀
+                            </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <!-- Testimonial Start -->
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <h1 class="text-center mb-5">Our Clients Say!!!</h1>
+                <div class="owl-carousel testimonial-carousel">
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>This platform brilliantly combines freelancing services with a versatile online store, offering unmatched convenience for both creators and customers.</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="~/homeAssets/img/testimonial-1.jpg" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Sara</h5>
+                                <small>Profession</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>A unique and powerful solution that connects skilled freelancers with a dynamic marketplace — all in one seamless experience.</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="~/homeAssets/img/testimonial-2.jpg" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Ibrahem</h5>
+                                <small>Profession</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>An innovative hub where talent meets commerce — empowering users to work, sell, and thrive in one place.</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="~/homeAssets/img/testimonial-3.jpg" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Abd</h5>
+                                <small>Profession</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>Seamlessly blending freelancing opportunities with e-commerce, this platform sets a new standard for digital entrepreneurship.</p>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid flex-shrink-0 rounded" src="~/homeAssets/img/testimonial-4.jpg" style="width: 50px; height: 50px;">
+                            <div class="ps-3">
+                                <h5 class="mb-1">Tala</h5>
+                                <small>Profession</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial End -->
+
+@section Scripts {<script>
+    const container = document.getElementById("postsContainer");
+    const btnLeft = document.getElementById("scrollPostsLeft");
+    const btnRight = document.getElementById("scrollPostsRight");
+
+    btnLeft?.addEventListener("click", () => {
+        container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
+    });
+
+    btnRight?.addEventListener("click", () => {
+        container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
+    });
+</script>
+ <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.getElementById("usersContainer");
+            const btnLeft = document.getElementById("scrollUsersLeft");
+            const btnRight = document.getElementById("scrollUsersRight");
+
+            btnLeft?.addEventListener("click", () => {
+                container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
+            });
+
+            btnRight?.addEventListener("click", () => {
+                container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
+            });
+        });
+    </script>
+}
+
+ 
+
+
+

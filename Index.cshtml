@@ -1,0 +1,66 @@
+﻿@model IEnumerable<JopShop.Models.Application>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@* <div id="messageBox" class="showmessage"></div>
+<div class="container mt-5">
+    <!-- عنوان القسم -->
+    <h2 class="mb-4 text-success">Applicants for Your Projects /<a href="index.html" class="btn btn-outline-success">Home</a> / <a href="profilePage.html" class="btn btn-outline-success">profile</a></h2>
+
+    <!-- مكان عرض المتقدمين على المشاريع -->
+    <div id="applicants-container"></div>
+</div> *@
+
+
+
+
+<h2>Applicants for My Projects</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No applicants yet.</p>
+}
+else
+{
+    foreach (var app in Model)
+    {
+        <div class="card my-3 p-3 shadow">
+            <h5 class="text-primary">@app.Job?.Title</h5>
+            <p><strong>Applicant:</strong> @app.User?.Name</p>
+            <p><strong>Email:</strong> @app.User?.Email</p>
+            <p><strong>Status:</strong> @app.Status</p>
+
+            <div class="d-flex gap-2">
+                @if (app.Status == "Pending")
+                {
+                    <form method="post" asp-action="Accept" asp-route-id="@app.Id">
+                        <button class="btn btn-success">Accept</button>
+                    </form>
+                    <form method="post" asp-action="Reject" asp-route-id="@app.Id">
+                        <button class="btn btn-danger">Reject</button>
+                    </form>
+                }
+                else if (app.Status == "Accepted")
+                {
+                    <form method="post" asp-action="FinishWork" asp-route-id="@app.Id">
+                        <button class="btn btn-warning">Finish Work</button>
+                    </form>
+                }
+                else if (app.Status == "Finished")
+                {
+                    @* <a class="btn btn-info" asp-action="Rate" asp-route-id="@app.Id">Evaluate</a> *@
+                <a asp-action="Rate" asp-route-id="@app.Id" class="btn btn-info">Evaluate</a>
+
+                }
+                else if (app.Status == "Rated")
+                {
+                    <form method="post" asp-action="DeleteConfirmed" asp-route-id="@app.Id">
+                        <button class="btn btn-outline-danger">Delete Request</button>
+                    </form>
+                }
+            </div>
+        </div>
+    }
+}

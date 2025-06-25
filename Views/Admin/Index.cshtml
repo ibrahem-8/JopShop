@@ -1,0 +1,498 @@
+@model JopShop.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+@* 
+<div class="container py-4"> *@
+    
+@* 
+<div class="container my-5">
+    <h2 class="text-center mb-5 text-success">Admin Dashboard</h2>
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success">Products</h6>
+                <h3>@Model.TotalProducts</h3>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success">Projects</h6>
+                <h3>@Model.TotalProjects</h3>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success">Users</h6>
+                <h3>@Model.TotalUsers</h3>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success">Orders</h6>
+                <h3>@Model.TotalOrders</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success">Total Sales (JD)</h6>
+                <h3>@Model.TotalSales</h3>
+            </div>
+        </div>
+    </div>
+    @if (!Model.OrderStatusDistribution.Any())
+{
+    <p class="text-muted text-center">No order status data available.</p>
+}
+@if (!Model.MonthlySales.Any())
+{
+    <p class="text-muted text-center">No monthly sales data available.</p>
+}
+
+<!-- Charts Section -->
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h5 class="text-success mb-3 text-center">Order Status</h5>
+            <div style="height: 300px;">
+                <canvas id="orderStatusChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h5 class="text-success mb-3 text-center">Monthly Sales</h5>
+            <div style="height: 300px;">
+                <canvas id="monthlySalesChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   
+
+
+
+
+    <!-- Order Status Distribution -->
+    <div class="mt-4">
+        <h4>Order Status Overview</h4>
+        <ul class="list-group">
+            @foreach (var kv in Model.OrderStatusDistribution)
+            {
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>@kv.Key</span>
+                    <span class="badge bg-secondary">@kv.Value</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div> *@
+<div class="container my-5">
+    <h2 class="text-center mb-5 text-success fs-1">Admin Dashboard</h2>
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success fs-3">Products</h6>
+                <h1>@Model.TotalProducts</h1>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success fs-3">Projects</h6>
+                <h1>@Model.TotalProjects</h1>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success fs-3">Users</h6>
+                <h1>@Model.TotalUsers</h1>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success fs-3">Orders</h6>
+                <h1>@Model.TotalOrders</h1>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center p-3 shadow-sm border-success">
+                <h6 class="text-success fs-3">Total Sales (JD)</h6>
+                <h1>@Model.TotalSales</h1>
+            </div>
+        </div>
+    </div>
+
+    @if (!Model.OrderStatusDistribution.Any())
+    {
+        <p class="text-muted text-center">No order status data available.</p>
+    }
+
+    @if (!Model.MonthlySales.Any())
+    {
+        <p class="text-muted text-center">No monthly sales data available.</p>
+    }
+
+    <!-- Charts Section -->
+    <div class="row mt-5">
+        <!-- Order Status Chart -->
+        <div class="col-md-6">
+            <div class="card p-4 h-100 d-flex flex-column align-items-center justify-content-center border-success"style="  border-radius: 12px 12px 0 0;">
+                <h5 class="text-success mb-3 text-center fs-3">Order Status</h5>
+                <div style="height: 300px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="orderStatusChart" style="max-width: 100%; max-height: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Sales Chart -->
+        <div class="col-md-6">
+            <div class="card p-4 h-100 d-flex flex-column align-items-center justify-content-center border-success"style="  border-radius: 12px 12px 0 0;">
+                <h5 class="text-success mb-3 text-center fs-3">Monthly Sales</h5>
+                <div style="height: 300px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="monthlySalesChart" style="max-width: 100%; max-height: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Status Distribution -->
+   <!-- Order Status Distribution Cards -->
+<div class="mt-5">
+    <h4 class="text-success mb-4 fs-1 text-center">Order Status Overview</h4>
+    <div class="row g-4">
+        @foreach (var kv in Model.OrderStatusDistribution)
+        {
+            <div class="col-md-4">
+                <div class="card text-center p-3 shadow-sm border-success">
+                    <h2 class="text-success mb-2">@kv.Key</h2>
+                    <h1 class="text-dark ">@kv.Value</h1>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container my-5 wow fadeInUp" data-wow-delay="0.1s">
+<h2 class="text-success text-center mb-4 fs-1">Publish a New Post</h2>
+
+<form asp-controller="Posts" asp-action="Create" method="post" class="card border-1 border-derk p-2 shadow-sm mb-5" style="  border-radius: 12px 12px 0 0;">
+    <div class="mb-3">
+        <label class="form-label ms-2 text-success ">Post Title</label>
+        <input name="Title" class="form-control  border-1 border-success " placeholder="Enter post title..." required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label ms-2 text-success ">Post Content</label>
+        <textarea name="PostText" class="form-control border-1 border-success" rows="4" placeholder="Enter post content..." required></textarea>
+    </div>
+
+    <input type="hidden" name="CreatedAt" value="@DateTime.Now" />
+
+    <button type="submit" class="btn btn-success w-100">Publish Post</button>
+    
+</form>
+</div>
+<div class="container my-5 wow fadeInUp" data-wow-delay="0.1s">
+    <h2 class="text-center mb-4 fs-1 text-success textmi">Manage Products</h2>
+
+    <!-- 🔍 شريط البحث -->
+    <div class="mb-4">
+        <input type="text" id="productSearch" class="form-control form-control-lg rounded-pill" placeholder="Search by name or category..." />
+    </div>
+
+    <!-- 🔁 سكرول أفقي -->
+    <div class="scroll-wrapper position-relative">
+        <button class="btn btn-success scroll-buttons start-0" id="scrollProductsLeft">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div id="productsContainer" class="scroll-container d-flex flex-nowrap overflow-auto px-2">
+            @foreach (var product in Model.AllProducts)
+            {
+                <div class="scroll-item card mx-2 shadow-sm border-0 flex-shrink-0"
+                     style="width: 100%; max-width: 400px; border-radius: 12px;">
+                    <img src="~/images/@product.ImageUrl"
+                         alt="@product.Name"
+                         class="card-img-top"
+                         style="height: 300px; object-fit: cover; border-radius: 10px 10px 0 0;" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title fs-4">@product.Name</h5>
+                        <p class="text-muted">
+                            Category: @product.Category<br />
+                            Price: $@product.Price<br />
+                            Quantity: @product.Quantity
+                        </p>
+
+                        <div class="d-flex justify-content-center gap-2 mb-2 mt-3">
+                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal_@product.Id">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🗑️ Modal -->
+                <div class="modal fade" id="deleteModal_@product.Id" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-dark">
+                                <h5 class="modal-title text-white">Confirm Delete</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete <strong class="text-danger">@product.Name</strong>?
+                            </div>
+                            <div class="modal-footer">
+                                <form asp-action="DeleteProduct" method="post">
+                                    <input type="hidden" name="id" value="@product.Id" />
+                                    <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <button class="btn btn-success scroll-buttons end-0" id="scrollProductsRight">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+
+
+<div class="container my-5 wow fadeInUp" data-wow-delay="0.1s">
+    <h2 class="text-center mb-4 fs-1 text-success textmi">Manage Users</h2>
+
+    <!-- 🔍 شريط البحث -->
+    <div class="mb-4">
+        <input type="text" id="userSearch" class="form-control form-control-lg rounded-pill" placeholder="Search by name or email..." />
+    </div>
+
+    <!-- 🔁 سكرول أفقي -->
+    <div class="scroll-wrapper position-relative">
+        <button class="btn btn-success scroll-buttons start-0" id="scrollUsersLeft">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div id="usersContainer" class="scroll-container d-flex flex-nowrap overflow-auto px-2">
+            @* @foreach (var user in Model.AllUsers)
+            {
+                <div class="scroll-item card mx-2 shadow-sm border-0 flex-shrink-0"
+     style="width: 100%; max-width: 400px; border-radius: 12px; cursor: pointer;" onclick="location.href='@Url.Action("Profile", "Users", new { id = user.Id })'">
+                    <img src="@user.ImagePath"
+                         alt="@user.UserName"
+                         class="card-img-top"
+                         style="height: 335px; object-fit: cover; border-radius: 10px 10px 0 0;" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title fs-4">@user.UserName</h5>
+                        <p class="text-muted">@user.Email</p>
+                       
+
+                        <div class="d-flex justify-content-center gap-1 mb-2 rounded-1 flex-wrap mt-3">
+                            <form asp-action="ToggleSuspend" asp-controller="Admin" method="post">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button class="btn btn-outline-success btn-sm" type="submit">
+                                    @(user.Suspended == true ? "Activate" : "Suspend")
+                                </button>
+                            </form>
+
+                            <form asp-action="TogglePublish" asp-controller="Admin" method="post">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button class="btn btn-outline-dark btn-sm" type="submit">
+                                    @(user.IsPublished ? "Unpublish" : "Publish")
+                                </button>
+                            </form>
+
+                            @* <form asp-action="DeleteUser" asp-controller="Admin" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
+                            </form> 
+
+                            <form asp-action="DeleteUser" asp-controller="Admin" method="post"
+      onsubmit="event.stopPropagation(); return confirm('Are you sure you want to delete this user?');">
+    <input type="hidden" name="id" value="@user.Id" />
+    <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
+</form>
+
+                        </div>
+                    </div>
+                </div>
+            } *@
+     
+@foreach (var user in Model.AllUsers)
+{
+    <div class="scroll-item card mx-2 shadow-sm border-0 flex-shrink-0"
+         style="width: 100%; max-width: 400px; border-radius: 12px;">
+        <img src="@user.ImagePath"
+             alt="@user.UserName"
+             class="card-img-top"
+             style="height: 335px; object-fit: cover; border-radius: 10px 10px 0 0;" />
+
+        <div class="card-body text-center">
+            <h5 class="card-title fs-4">
+                <a href="@Url.Action("Profile", "Users", new { id = user.Id })" class="text-decoration-none text-dark">
+                    @user.UserName
+                </a>
+            </h5>
+            <p class="text-muted">@user.Email</p>
+
+            <div class="d-flex justify-content-center gap-1 mb-2 rounded-1 flex-wrap mt-3">
+                <form asp-action="ToggleSuspend" asp-controller="Admin" method="post">
+                    <input type="hidden" name="id" value="@user.Id" />
+                    <button class="btn btn-outline-success btn-sm" type="submit">
+                        @(user.Suspended == true ? "Activate" : "Suspend")
+                    </button>
+                </form>
+
+                <form asp-action="TogglePublish" asp-controller="Admin" method="post">
+                    <input type="hidden" name="id" value="@user.Id" />
+                    <button class="btn btn-outline-dark btn-sm" type="submit">
+                        @(user.IsPublished ? "Unpublish" : "Publish")
+                    </button>
+                </form>
+
+                <form asp-action="DeleteUser" asp-controller="Admin" method="post"
+                      onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <input type="hidden" name="id" value="@user.Id" />
+                    <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+   </div>
+        <button class="btn btn-success scroll-buttons end-0" id="scrollUsersRight">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+@using Newtonsoft.Json
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@section Scripts {
+    <script>
+   
+        // سكرول يمين ويسار
+       document.getElementById('scrollUsersLeft').onclick = () => {
+            document.getElementById('usersContainer').scrollBy({ left: -500, behavior: 'smooth' });
+        };
+        document.getElementById('scrollUsersRight').onclick = () => {
+            document.getElementById('usersContainer').scrollBy({ left: 500, behavior: 'smooth' });
+        }; 
+
+        // فلترة البحث
+        document.getElementById('userSearch').addEventListener('input', function () {
+            const searchText = this.value.toLowerCase();
+            const cards = document.querySelectorAll('#usersContainer .card');
+            cards.forEach(card => {
+                const name = card.querySelector('.card-title').innerText.toLowerCase();
+                const email = card.querySelector('.text-muted').innerText.toLowerCase();
+                card.style.display = name.includes(searchText) || email.includes(searchText) ? 'block' : 'none';
+            });
+        });
+    </script>
+
+     <script>
+        // Scroll Buttons
+        const pContainer = document.getElementById('productsContainer');
+        const pLeft = document.getElementById('scrollProductsLeft');
+        const pRight = document.getElementById('scrollProductsRight');
+
+        pLeft.onclick = () => {
+            const card = pContainer.querySelector('.scroll-item');
+            const cardWidth = card.offsetWidth + parseInt(getComputedStyle(card).marginRight);
+            pContainer.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        };
+
+        pRight.onclick = () => {
+            const card = pContainer.querySelector('.scroll-item');
+            const cardWidth = card.offsetWidth + parseInt(getComputedStyle(card).marginRight);
+            pContainer.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        };
+
+        // Search Filter
+        document.getElementById('productSearch').addEventListener('input', function () {
+            const searchText = this.value.toLowerCase();
+            const cards = document.querySelectorAll('#productsContainer .card');
+            cards.forEach(card => {
+                const name = card.querySelector('.card-title').innerText.toLowerCase();
+                const info = card.querySelector('.text-muted').innerText.toLowerCase();
+                card.style.display = name.includes(searchText) || info.includes(searchText) ? 'block' : 'none';
+            });
+        });
+    </script>
+    <script>
+    const orderStatusData = @Html.Raw(JsonConvert.SerializeObject(Model.OrderStatusDistribution ?? new Dictionary<string, int>()));
+    const monthlySalesData = @Html.Raw(JsonConvert.SerializeObject(Model.MonthlySales ?? new Dictionary<string, int>()));
+
+    // ✅ طباعة البيانات للمراجعة
+    console.log("Order Status:", orderStatusData);
+    console.log("Monthly Sales:", monthlySalesData);
+
+    // الرسم الدائري لحالة الطلبات
+    const orderStatusCtx = document.getElementById('orderStatusChart');
+    if (orderStatusCtx && Object.keys(orderStatusData).length > 0) {
+        new Chart(orderStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(orderStatusData),
+                datasets: [{
+                    data: Object.values(orderStatusData),
+                    backgroundColor: ['#198754', '#ffc107', '#dc3545', '#0dcaf0'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                }
+            }
+        });
+    }
+
+    // الرسم الخطي للمبيعات الشهرية
+    const monthlySalesCtx = document.getElementById('monthlySalesChart');
+    if (monthlySalesCtx && Object.keys(monthlySalesData).length > 0) {
+        new Chart(monthlySalesCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(monthlySalesData),
+                datasets: [{
+                    label: 'Sales (JD)',
+                    data: Object.values(monthlySalesData),
+                    backgroundColor: 'rgba(25, 135, 84, 0.3)',
+                    borderColor: '#198754',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: "JD" }
+                    },
+                    x: {
+                        title: { display: true, text: "Month" }
+                    }
+                }
+            }
+        });
+    }
+</script>
+}

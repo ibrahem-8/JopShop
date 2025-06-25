@@ -1,0 +1,73 @@
+﻿
+@model JopShop.Models.User
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Edit Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/homeAssets/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/homeAssets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/homeAssets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/homeAssets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="body_profile">
+    <div class="profile">
+        <div class="profile-containerform">
+            <div class="form-containerform">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data" id="profileForm">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Email" />
+                    <input type="hidden" asp-for="Password" />
+                    <input type="hidden" asp-for="Role" />
+                    <input type="hidden" asp-for="CreatedAt" />
+                    <input type="hidden" asp-for="Suspended" />
+                    <input type="hidden" asp-for="UserName" />
+                    <label>Your Image</label>
+                    <input asp-for="ImageFile" type="file" accept="image/*" id="img_pro" class="form-control" />
+
+                    <label>Full Name</label>
+                    <input asp-for="Name" class="filed_text" id="fname_pro" />
+
+                    <label>Phone Number</label>
+                    <input asp-for="PhoneNumber" type="tel" maxlength="10" class="filed_text" id="ph_pro" pattern="[0-9]{10}" />
+                    <br>
+                    <label class="b_gpro">Gender</label>
+                    <br>    
+                    <select asp-for="Gender" class="filed_text" id="select_pro">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+
+                    <label>Upload CV</label>
+                    <input asp-for="CvFile" type="file" accept=".pdf,.doc,.docx" class="filed_text" id="cv_pro" />
+
+                    <label>LinkedIn Profile URL</label>
+                    <input asp-for="LinkedInUrl" class="filed_text" id="linkedin_pro" />
+
+                    
+                    <button type="submit" class="send_pro" id="send_pro">Save Changes</button>
+                </form>
+            </div>
+            <img src="~/homeAssets/img/page_log.png" class="img_profileform">
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/homeAssets/lib/wow/wow.min.js"></script>
+    <script src="~/homeAssets/lib/easing/easing.min.js"></script>
+    <script src="~/homeAssets/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/homeAssets/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/homeAssets/js/main.js"></script>
+</body>
+</html>
+

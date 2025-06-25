@@ -1,0 +1,33 @@
+﻿@model JopShop.Models.Project
+
+@{
+    ViewData["Title"] = "Project xDetails";
+}
+
+<div class="container py-5">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Project Details</h4>
+        </div>
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+                <img src="~/images/@Model.User?.ImageFile" class="rounded-circle me-3" style="width: 70px; height: 70px;" />
+                <div>
+                    <h4 class="mb-0">@Model.Id</h4>
+                    <small class="text-muted">Posted by: @Model.User?.Name</small>
+                </div>
+            </div>
+            <p><strong>Description:</strong><br />@Model.Description</p>
+            <p><strong>Category:</strong> @Model.Description</p>
+            <p><strong>Budget:</strong> @Model.Description @Model.Description</p>
+            <p><strong>Payment Type:</strong> @Model.Description</p>
+            <p><strong>Duration:</strong> @Model.Description days</p>
+
+            <form asp-action="Apply" method="post">
+                <input type="hidden" name="jobId" value="@Model.Id" />
+
+                <button type="submit" class="btn btn-success mt-3">Apply to this project</button>
+            </form>
+        </div>
+    </div>
+</div>

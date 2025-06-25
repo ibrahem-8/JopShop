@@ -1,0 +1,152 @@
+﻿@* @model JopShop.Models.Application
+
+@{
+    ViewData["Title"] = "Apply for Job";
+}
+
+<div class="container py-5">
+    <div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+        <h2 class="text-center mb-4 text-primary">Apply for this project</h2>
+
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label class="form-label">Job Title</label>
+                <input class="form-control" value="@ViewBag.JobTitle" disabled />
+            </div>
+
+            <!-- حقول مخفية يتم تمريرها تلقائيًا -->
+            <input type="hidden" asp-for="JobId" />
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="Status" value="Pending" />
+            <input type="hidden" asp-for="AppliedAt" value="@DateTime.Now" />
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-4">Confirm Application</button>
+                <a asp-controller="Jobs" asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div> *@
+
+
+@model JopShop.Models.Application
+
+@{
+    ViewData["Title"] = "Apply for Project";
+}
+
+<div class="container py-5">
+    <div class="card shadow-lg mx-auto rounded-4" style="max-width: 1500px;">
+        <div class="card-header bg-success text-white rounded-top-4">
+            <h4 class="mb-0 text-center textmi">
+                <i class="fas fa-paper-plane me-2 fs-2 "></i>Confirm Your Application
+            </h4>
+        </div>
+
+    <div class="card-body px-5 py-5 bg-white rounded shadow-sm">
+    <!-- Project Title -->
+    <div class="mb-4">
+        <label class="form-label fw-bold fs-2 text-success textmi"> Project Title:</label>
+        <div class="p-3 border textmi rounded fs-4 text-dark  shadow-sm">
+            @ViewBag.JobTitle
+        </div>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-4">
+        <label class="form-label fw-bold textmi fs-2 text-success"> Category:</label>
+        <div class="p-3  border textmi  text-dark fs-4 rounded shadow-sm">
+            @ViewBag.Category
+        </div>
+    </div>
+
+    <!-- Project Description -->
+    <div class="mb-4">
+        <label class="form-label fw-bold textmi fs-2 text-success"> Project Description:</label>
+        <div class="p-3  border rounded  text-dark fs-4 shadow-sm" style="min-height: 100px;">
+            @ViewBag.ProjectDescription
+        </div>
+    </div>
+</div>
+
+            
+
+            <form asp-action="Create" method="post">
+                <!-- Hidden fields -->
+                <input type="hidden" asp-for="JobId" />
+                <input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="Status" value="Pending" />
+                <input type="hidden" asp-for="AppliedAt" value="@DateTime.Now" />
+
+                <div class="text-center bg-white">
+                    <button type="submit" class="btn btn-success px-5 mb-3 rounded-pill">
+                        <i class="fas fa-check-circle me-2 "></i>Confirm Application
+                    </button>
+                    <a asp-controller="Jobs" asp-action="Index" class="btn mb-3 btn-outline-success ms-3 px-4 rounded-pill">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @model JopShop.Models.Application *@
+
+@* @{ *@
+@*     ViewData["Title"] = "Create"; *@
+@* } *@
+
+@* <h1>Create</h1> *@
+
+@* <h4>Application</h4> *@
+@* <hr /> *@
+@* <div class="row"> *@
+@*     <div class="col-md-4"> *@
+@*         <form asp-action="Create"> *@
+@*             <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+@*             <div class="form-group"> *@
+@*                 <label asp-for="JobId" class="control-label"></label> *@
+@*                 <select asp-for="JobId" class ="form-control" asp-items="ViewBag.JobId"></select> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label asp-for="UserId" class="control-label"></label> *@
+@*                 <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <input type="submit" value="Create" class="btn btn-primary" /> *@
+@*             </div> *@
+@*         </form> *@
+@*     </div> *@
+@* </div> *@
+
+@* <div> *@
+@*     <a asp-action="Index">Back to List</a> *@
+@* </div> *@
+
+@* @section Scripts { *@
+@*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} *@
+@* } *@

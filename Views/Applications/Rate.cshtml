@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Rate Freelancer";
+    var appId = ViewBag.AppId;
+}
+
+<div class="container mt-5">
+    <div class="card p-4 shadow">
+        <h3 class="text-success mb-4 text-center">How was your experience?</h3>
+
+        <form method="post" asp-action="SubmitRating" asp-controller="Applications">
+            <input type="hidden" name="id" value="@appId" />
+
+            <div class="d-flex justify-content-center mb-4">
+                <div class="rate text-center">
+                    @for (int i = 5; i >= 1; i--)
+                    {
+                        <input type="radio" id="rate-@i" name="rating" value="@i" required />
+                        <label for="rate-@i" class="fas fa-star" style="font-size: 2rem; color: gray; margin: 0 4px; cursor: pointer;"></label>
+                    }
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-outline-success">Submit Evaluation</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // تغيير لون النجوم عند التحديد
+        document.querySelectorAll("input[name='rating']").forEach(radio => {
+            radio.addEventListener("change", () => {
+                const value = parseInt(radio.value);
+                document.querySelectorAll(".rate label").forEach((label, index) => {
+                    label.style.color = index < value ? "#ffc107" : "gray";
+                });
+            });
+        });
+    </script>
+}
+
